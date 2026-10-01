@@ -1,42 +1,28 @@
-# potfo
+# Prasanth Gunasekaran — Portfolio
 
-A React app built with Vite, Redux Toolkit, RTK Query and React Router.
+A personal portfolio for a MERN stack developer. It has a dark cyber/terminal design with a light (white) mode, four accent color themes and a lot of animation, and works on screens from 320px phones to 4K monitors.
 
 ## Tech stack
 
 | Tool | Purpose |
 | --- | --- |
 | [React 19](https://react.dev/) | UI library |
-| [Vite](https://vite.dev/) | Dev server and build tool |
-| [Redux Toolkit](https://redux-toolkit.js.org/) | Global state management |
-| [RTK Query](https://redux-toolkit.js.org/rtk-query/overview) | Data fetching and caching (included in Redux Toolkit) |
-| [React Redux](https://react-redux.js.org/) | React bindings for Redux |
-| [React Router](https://reactrouter.com/) | Client-side routing |
+| [Vite 8](https://vite.dev/) | Dev server and build tool |
+| [Tailwind CSS v4](https://tailwindcss.com/) | Styling, via `@tailwindcss/vite`. There is no config file; tokens live in `src/index.css` |
+| [Motion](https://motion.dev/) | All animations (`import … from 'motion/react'`) |
+| [React Router 7](https://reactrouter.com/) | Client-side routing |
+| [react-icons](https://react-icons.github.io/react-icons/) | Brand and UI icons |
+| [Redux Toolkit + RTK Query](https://redux-toolkit.js.org/) | Store and API layer, wired up for future backend data |
 | [ESLint](https://eslint.org/) | Linting |
 
 ## Getting started
 
 ```bash
-# Install dependencies
 npm install
-
-# Start the dev server (http://localhost:5173)
-npm run dev
+npm run dev      # http://127.0.0.1:5173
 ```
 
-## Environment variables
-
-Environment variables live in `.env` in the project root. Vite only exposes variables to the app when their names start with `VITE_`.
-
-| Variable | Description |
-| --- | --- |
-| `VITE_API_BASE_URL` | Base URL of the backend API that RTK Query calls. If it's empty, requests go to the app's own origin. |
-
-```env
-VITE_API_BASE_URL=https://api.example.com
-```
-
-Restart the dev server after changing `.env`.
+The dev server is pinned to `127.0.0.1` in `vite.config.js`. This keeps the hot-reload WebSocket working on machines where Vite would otherwise bind only to IPv6.
 
 ## Scripts
 
@@ -45,121 +31,73 @@ Restart the dev server after changing `.env`.
 | `npm run dev` | Start the dev server with hot reload |
 | `npm run build` | Build for production into `dist/` |
 | `npm run preview` | Serve the production build locally |
-| `npm run lint` | Run ESLint on the project |
+| `npm run lint` | Run ESLint |
+
+## Editing your content
+
+All text and links live in **`src/data.js`**: profile, socials, stats, skills, experience, projects and the "What I Do" services. Edit that file only.
+
+- Put `resume.pdf` in `public/`. The resume button and the `resume` terminal command link to it.
+- To use a real photo instead of the animated avatar, put the image in `public/` and set `photo: '/me.jpg'`.
+- The neofetch "Uptime" adds up the `from` / `to` dates in `experience` (gaps between jobs are skipped).
+- **Contact form (EmailJS):** copy `.env.example` to `.env.local`, fill in your EmailJS service, template and public key, then restart `npm run dev`. Without keys the form opens the visitor's mail app instead.
 
 ## Folder structure
 
 ```
 potfo/
-├── public/                 Static files served as-is (favicon, etc.)
+├── public/                favicon.svg (+ resume.pdf, photo)
 ├── src/
-│   ├── app/
-│   │   └── store.js        Redux store setup
-│   ├── services/
-│   │   └── api.js          Base RTK Query API (endpoints are injected per feature)
-│   ├── features/           One folder per feature: its slice and API endpoints
-│   ├── components/         Reusable UI components shared across pages
-│   ├── pages/              Page components, one per route
-│   ├── layouts/            Layout wrappers (header, footer, sidebar)
-│   ├── routes/             Route definitions
-│   ├── hooks/              Custom React hooks
-│   ├── utils/              Helper functions
-│   ├── constants/          App-wide constants
-│   ├── assets/             Images, icons and fonts imported in code
-│   ├── App.jsx             Root component
-│   ├── App.css             Root component styles
-│   ├── index.css           Global styles
-│   └── main.jsx            Entry point: mounts the app with the Redux Provider and BrowserRouter
-├── .env                    Environment variables
-├── index.html              HTML entry
-├── vite.config.js          Vite config
-├── eslint.config.js        ESLint config
+│   ├── main.jsx           Entry: Redux Provider + BrowserRouter
+│   ├── App.jsx            Routes + boot screen; applies the saved dark/light mode and theme
+│   ├── index.css          Tailwind import, design tokens, light mode, breakpoints, custom effects
+│   ├── data.js            All portfolio content
+│   ├── lib/
+│   │   ├── hooks.js       Custom hooks (typewriter, boot state, page title, mode, key press…)
+│   │   ├── theme.js       Accent themes + dark/light mode
+│   │   └── icons.js       Tech and social icon maps
+│   ├── components/        One component per file (Navbar, TargetCursor, SkillSphere, …)
+│   ├── pages/             Home, About, Projects, ProjectDetail, Contact, NotFound
+│   ├── app/store.js       Redux store
+│   └── services/api.js    Base RTK Query API
+├── index.html
+├── vite.config.js
 └── package.json
 ```
 
-## How the app is wired
+Conventions (styling, breakpoints, themes) are documented in [CLAUDE.md](CLAUDE.md).
 
-`main.jsx` wraps `<App />` in the Redux `<Provider>` and `<BrowserRouter>`. Every component can therefore use the store, the RTK Query hooks and routing.
+## Features
 
-```
-main.jsx
-└── <Provider store={store}>
-    └── <BrowserRouter>
-        └── <App />
-```
+- **Ctrl / Cmd + K terminal.** Commands: `help`, `about`, `projects`, `open <project>`, `theme <matrix|cyber|amber|synth>`, `mode <dark|light>`, `sudo hire-me`, and more.
+- **Dark / light mode** via the navbar button. **Accent themes** via the footer dots. Both are saved in localStorage.
+- **Animations:**
+  - boot screen, page-wipe transitions and matrix rain background;
+  - a target-lock cursor and a decrypting/glitching name;
+  - 3D tilt project cards, a 3D skill globe, the neofetch card, the git timeline and the contribution heatmap.
+- **Accessibility:** a skip link, per-page titles, and respect for the OS "reduce motion" setting.
 
-## Adding a feature
+## Environment variables
 
-Each feature gets its own folder in `src/features/`, for example:
+`.env` in the project root. Vite only exposes variables whose names start with `VITE_`.
 
-```
-src/features/projects/
-├── projectsApi.js      RTK Query endpoints for this feature
-└── projectsSlice.js    Local state for this feature (only if it needs any)
-```
+| Variable | Description |
+| --- | --- |
+| `VITE_API_BASE_URL` | Base URL of the backend API that RTK Query calls |
 
-### 1. Add API endpoints
+## Adding backend data later (RTK Query)
 
-Inject endpoints into the shared base API instead of creating a new `createApi`:
+Inject endpoints into the shared base API rather than creating a new `createApi`:
 
 ```js
-// src/features/projects/projectsApi.js
-import { api } from '../../services/api'
+// src/services/projectsApi.js
+import { api } from './api'
 
 export const projectsApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    getProjects: builder.query({
-      query: () => '/projects',
-    }),
-    addProject: builder.mutation({
-      query: (body) => ({ url: '/projects', method: 'POST', body }),
-    }),
+    getProjects: builder.query({ query: () => '/projects' }),
   }),
 })
 
-export const { useGetProjectsQuery, useAddProjectMutation } = projectsApi
-```
-
-Use the generated hooks in a component:
-
-```jsx
-import { useGetProjectsQuery } from '../features/projects/projectsApi'
-
-function Projects() {
-  const { data, isLoading, error } = useGetProjectsQuery()
-  // ...
-}
-```
-
-### 2. Add a slice (optional)
-
-Only needed for client-side state that doesn't come from the API:
-
-```js
-// src/features/projects/projectsSlice.js
-import { createSlice } from '@reduxjs/toolkit'
-
-const projectsSlice = createSlice({
-  name: 'projects',
-  initialState: { selectedId: null },
-  reducers: {
-    selectProject: (state, action) => {
-      state.selectedId = action.payload
-    },
-  },
-})
-
-export const { selectProject } = projectsSlice.actions
-export default projectsSlice.reducer
-```
-
-Then register the reducer in `src/app/store.js`:
-
-```js
-import projectsReducer from '../features/projects/projectsSlice'
-
-reducer: {
-  [api.reducerPath]: api.reducer,
-  projects: projectsReducer,
-},
+export const { useGetProjectsQuery } = projectsApi
 ```

@@ -28,10 +28,18 @@ function ProjectDetailPage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.4 }}
       >
-        <span className="text-[12px] tracking-[0.15em] text-(--accent) uppercase">{project.category}</span>
+        <span className="text-[12px] tracking-[0.15em] text-(--accent) uppercase">
+          {project.category}
+          {project.domain && <span className="text-muted"> · {project.domain}</span>}
+        </span>
         <h1 className="mt-2.5 text-[clamp(36px,6vw,68px)]">{project.title}</h1>
         <p className="mt-[14px] max-w-[620px] text-[17px] text-muted max-phone:text-[15px]">{project.description}</p>
         <div className="mt-[30px] flex flex-wrap gap-[14px]">
+          {!project.github && !project.live && (
+            <span className="inline-flex items-center gap-2 rounded-lg border border-dashed border-line px-4 py-2.5 font-mono text-[13px] text-muted">
+              🔒 client project — source &amp; demo are private
+            </span>
+          )}
           {project.github && (
             <MagneticButton>
               <a href={project.github} target="_blank" rel="noreferrer" className="btn">

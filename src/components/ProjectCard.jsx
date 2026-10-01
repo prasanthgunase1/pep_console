@@ -21,7 +21,7 @@ function ProjectCard({ project }) {
             <span className="h-2 w-2 rounded-full bg-[#febc2e]" />
             <span className="h-2 w-2 rounded-full bg-[#28c840]" />
           </span>
-          <span className="absolute top-2.5 right-3.5 font-mono text-[11px] text-muted">{project.category}</span>
+          <span className="absolute top-2.5 right-3.5 font-mono text-[11px] text-muted">{project.domain || project.category}</span>
           <span className="relative flex items-baseline gap-2 font-mono font-bold" style={{ color: project.accent }}>
             <span className="text-[18px] opacity-70">&lt;/&gt;</span>
             <span className="text-[44px] leading-none tracking-[-0.04em] [text-shadow:0_0_24px_currentColor]">

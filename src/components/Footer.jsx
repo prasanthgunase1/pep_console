@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react'
 import { profile, socials } from '../data'
 import { socialIcons } from '../lib/icons'
-import { applyTheme, getTheme, THEME_EVENT, themes } from '../lib/theme'
+import { applyTheme, getTheme, THEME_EVENT, themeColors, themes } from '../lib/theme'
+import { useMode } from '../lib/hooks'
 
 // Socials, theme switcher dots and a live clock.
 function Footer() {
   const [time, setTime] = useState(() => new Date())
   const [theme, setTheme] = useState(getTheme)
+  const mode = useMode()
 
   useEffect(() => {
     const id = setInterval(() => setTime(new Date()), 1000)
@@ -55,7 +57,7 @@ function Footer() {
                   ? 'shadow-[0_0_0_2px_var(--swatch),0_0_10px_var(--swatch)]'
                   : 'shadow-[0_0_0_1px_var(--border)]'
               }`}
-              style={{ '--swatch': t.primary, '--swatch-2': t.secondary }}
+              style={{ '--swatch': themeColors(t, mode).primary, '--swatch-2': themeColors(t, mode).secondary }}
               onClick={() => applyTheme(name)}
             />
           ))}

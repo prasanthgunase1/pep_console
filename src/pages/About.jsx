@@ -1,6 +1,6 @@
 import { motion } from 'motion/react'
 import { FaDownload, FaLocationDot } from 'react-icons/fa6'
-import { experience, profile, skills } from '../data'
+import { education, experience, profile, skills } from '../data'
 import SectionHeading from '../components/SectionHeading'
 import TerminalWindow from '../components/TerminalWindow'
 import SkillBar from '../components/SkillBar'
@@ -8,6 +8,7 @@ import MagneticButton from '../components/MagneticButton'
 import GitTimeline from '../components/GitTimeline'
 import GitHeatmap from '../components/GitHeatmap'
 import DevAvatar from '../components/DevAvatar'
+import EducationCard from '../components/EducationCard'
 import { usePageTitle } from '../lib/hooks'
 
 function AboutPage() {
@@ -83,7 +84,16 @@ function AboutPage() {
       </section>
 
       <section className="section">
-        <SectionHeading index="04" title="Contribution Graph" subtitle="$ git log --since='1 year ago' | heatmap" />
+        <SectionHeading index="04" title="Education" />
+        <div className="grid gap-6">
+          {education.map((item) => (
+            <EducationCard key={item.hash} item={item} />
+          ))}
+        </div>
+      </section>
+
+      <section className="section">
+        <SectionHeading index="05" title="Contribution Graph" subtitle="$ git log --since='1 year ago' | heatmap" />
         <GitHeatmap />
       </section>
     </div>

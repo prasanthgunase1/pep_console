@@ -49,7 +49,7 @@ export const getMode = () => read(MODE_KEY, (v) => modes.includes(v), 'dark')
 export const applyTheme = (name) => {
   const theme = themes[name]
   if (!theme) return false
-  const colors = getMode() === 'light' ? theme.light : theme
+  const colors = themeColors(theme)
   const root = document.documentElement.style
   root.setProperty('--green', colors.primary)
   root.setProperty('--green-rgb', colors.primaryRgb)
@@ -64,11 +64,16 @@ export const applyTheme = (name) => {
 export const applyMode = (mode) => {
   if (!modes.includes(mode)) return false
   document.documentElement.dataset.mode = mode
+  // mobile browser bar color follows the page background
+  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', mode === 'light' ? '#f5f7fa' : '#05070a')
   save(MODE_KEY, mode)
   applyTheme(getTheme())
   window.dispatchEvent(new CustomEvent(MODE_EVENT, { detail: mode }))
   return true
 }
+
+// accent colors for the current mode (light mode uses the darker variants)
+export const themeColors = (theme, mode = getMode()) => (mode === 'light' ? theme.light : theme)
 
 export const toggleMode = () => applyMode(getMode() === 'light' ? 'dark' : 'light')
 

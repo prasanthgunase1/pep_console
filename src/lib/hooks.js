@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react'
 import { useMotionValue, useReducedMotion as useMotionReduced } from 'motion/react'
 import { profile } from '../data'
+import { getMode, MODE_EVENT } from './theme'
 
 export function useTypewriter(words, { typeSpeed = 70, deleteSpeed = 40, pause = 1600 } = {}) {
   const [index, setIndex] = useState(0)
@@ -106,4 +107,18 @@ export function usePageTitle(title) {
   useEffect(() => {
     document.title = title ? `${title} · ${profile.name}` : `${profile.name} | ${profile.role}`
   }, [title])
+}
+
+// ─── Dark / light mode ────────────────────────────────────────
+// current mode ('dark' | 'light'), re-renders when it changes
+export function useMode() {
+  const [mode, setMode] = useState(getMode)
+
+  useEffect(() => {
+    const onMode = (e) => setMode(e.detail)
+    window.addEventListener(MODE_EVENT, onMode)
+    return () => window.removeEventListener(MODE_EVENT, onMode)
+  }, [])
+
+  return mode
 }

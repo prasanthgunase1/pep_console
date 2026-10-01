@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { motion } from 'motion/react'
-import { profile, projects, techStack } from '../data'
-import { themes } from '../lib/theme'
+import { experience, profile, projects, techStack } from '../data'
+import { themeColors, themes } from '../lib/theme'
+import { useMode } from '../lib/hooks'
 import TerminalWindow from './TerminalWindow'
 
 const ASCII = String.raw` ____   ____
@@ -29,10 +30,15 @@ function uptime(start, now) {
   return `${y}y ${m}m ${d}d ${clock}`
 }
 
+// Total time worked = sum of all experience periods (gaps between jobs are skipped)
+const workedMs = (now) =>
+  experience.reduce((ms, job) => ms + ((job.to ? new Date(job.to) : now) - new Date(job.from)), 0)
+
 // Linux "neofetch"-style system card with a live career uptime counter.
 function Neofetch() {
   const [now, setNow] = useState(() => new Date())
-  const start = new Date(profile.careerStart)
+  const mode = useMode()
+  const start = new Date(now - workedMs(now))
 
   useEffect(() => {
     const id = setInterval(() => setNow(new Date()), 1000)
@@ -41,7 +47,7 @@ function Neofetch() {
 
   const rows = [
     ['OS', 'MERN Stack x86_64'],
-    ['Host', profile.location],
+    ['Host', `${experience[0].company} · ${profile.location}`],
     ['Uptime', uptime(start, now)],
     ['Shell', 'node --experimental-everything'],
     ['Packages', `${techStack.length} (npm), ${projects.length} projects`],
@@ -72,7 +78,7 @@ function Neofetch() {
             </motion.p>
           ))}
           <div className="mt-3 flex">
-            {Object.values(themes).flatMap((t) => [t.primary, t.secondary]).map((c, i) => (
+            {Object.values(themes).flatMap((t) => [themeColors(t, mode).primary, themeColors(t, mode).secondary]).map((c, i) => (
               <span key={i} className="h-[14px] w-[22px]" style={{ background: c }} />
             ))}
           </div>

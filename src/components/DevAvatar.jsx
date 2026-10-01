@@ -34,7 +34,7 @@ function DevAvatar() {
             </g>
 
             {/* floating symbols */}
-            <text x="232" y="72" className="dav-sym dav-sym--1">{'{ }'}</text>
+            <text x="232" y="72" className="dav-sym">{'{ }'}</text>
             <text x="246" y="132" className="dav-sym dav-sym--2">=&gt;</text>
             <text x="30" y="160" className="dav-sym dav-sym--3">( )</text>
 
@@ -79,7 +79,7 @@ function DevAvatar() {
             {/* coffee */}
             <rect x="226" y="220" width="22" height="28" rx="4" className="dav-mug" />
             <path d="M248 226 q10 0 10 9 q0 9 -10 9" className="dav-line" />
-            <path d="M232 214 q-5 -8 0 -16 q5 -8 0 -16" className="dav-steam dav-steam--1" />
+            <path d="M232 214 q-5 -8 0 -16 q5 -8 0 -16" className="dav-steam" />
             <path d="M241 214 q-5 -8 0 -16 q5 -8 0 -16" className="dav-steam dav-steam--2" />
 
             {/* hologram scan */}

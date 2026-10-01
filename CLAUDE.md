@@ -51,7 +51,8 @@ All routes render inside `components/MainLayout.jsx`, which adds the background 
 - Change text, links, skills, jobs, projects and services **only in `src/data.js`**.
 - Each tech name in `techStack` / `services[].icon` must match a key in `lib/icons.js`.
 - `profile.photo` set to e.g. `'/me.jpg'` (file in `public/`) shows a real photo instead of the animated avatar.
-- `profile.careerStart` drives the live "uptime" counter in the neofetch card.
+- The neofetch "Uptime" adds up the `from` / `to` dates in `experience` (gaps skipped).
+- Contact form sends via **EmailJS** (`src/lib/email.js`) when `VITE_EMAILJS_SERVICE_ID`, `VITE_EMAILJS_TEMPLATE_ID` and `VITE_EMAILJS_PUBLIC_KEY` are set in `.env.local` (template in `.env.example`); otherwise it falls back to `mailto:`.
 
 ## Styling conventions
 - Use **Tailwind utilities in JSX** for layout, spacing, type, color and hover.

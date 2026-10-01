@@ -7,6 +7,7 @@ import SectionHeading from '../components/SectionHeading'
 import TerminalWindow from '../components/TerminalWindow'
 import MagneticButton from '../components/MagneticButton'
 import { usePageTitle } from '../lib/hooks'
+import { isEmailConfigured, openMailto, sendContactEmail } from '../lib/email'
 
 const FIELDS = [
   { name: 'name', label: 'name', type: 'text', placeholder: 'John Doe' },
@@ -20,22 +21,28 @@ const inputClass =
 function ContactPage() {
   usePageTitle('Contact')
   const [form, setForm] = useState({ name: '', email: '', message: '' })
-  const [status, setStatus] = useState('idle') // idle | sending | sent
+  const [status, setStatus] = useState('idle') // idle | sending | sent | error
   const [copied, setCopied] = useState(false)
 
   const onChange = (e) => setForm((f) => ({ ...f, [e.target.name]: e.target.value }))
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault()
     setStatus('sending')
-    const subject = encodeURIComponent(`Portfolio contact from ${form.name}`)
-    const body = encodeURIComponent(`${form.message}\n\n— ${form.name} (${form.email})`)
-    setTimeout(() => {
-      window.location.href = `mailto:${profile.email}?subject=${subject}&body=${body}`
+    try {
+      if (isEmailConfigured) {
+        await sendContactEmail(form) // real email via EmailJS
+      } else {
+        await new Promise((r) => setTimeout(r, 1200))
+        openMailto(form) // no EmailJS keys yet: open the visitor's mail app
+      }
       setStatus('sent')
       setForm({ name: '', email: '', message: '' })
-      setTimeout(() => setStatus('idle'), 4000)
-    }, 1200)
+      setTimeout(() => setStatus('idle'), 5000)
+    } catch {
+      setStatus('error')
+      setTimeout(() => setStatus('idle'), 6000)
+    }
   }
 
   const copyEmail = async () => {
@@ -121,7 +128,19 @@ function ContactPage() {
                       exit={{ opacity: 0 }}
                       transition={{ type: 'spring', stiffness: 400, damping: 15 }}
                     >
-                      <FaCheck /> message queued — exit 0
+                      <FaCheck /> {isEmailConfigured ? 'message delivered' : 'opening your mail app'} — exit 0
+                    </motion.span>
+                  )}
+                  {status === 'error' && (
+                    <motion.span
+                      key="error"
+                      className="inline-flex items-center gap-2 text-[13px] text-magenta"
+                      initial={{ opacity: 0, x: -6 }}
+                      animate={{ opacity: 1, x: [0, -6, 6, -4, 4, 0] }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.5 }}
+                    >
+                      ✖ send failed — exit 1. please email me directly →
                     </motion.span>
                   )}
                 </AnimatePresence>
