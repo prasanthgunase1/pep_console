@@ -3,8 +3,10 @@ import { AnimatePresence, motion } from 'motion/react'
 import { projectFilters, projects } from '../data'
 import SectionHeading from '../components/SectionHeading'
 import ProjectCard from '../components/ProjectCard'
+import { usePageTitle } from '../lib/hooks'
 
 function ProjectsPage() {
+  usePageTitle('Projects')
   const [filter, setFilter] = useState('All')
   const visible = filter === 'All' ? projects : projects.filter((p) => p.category === filter)
 

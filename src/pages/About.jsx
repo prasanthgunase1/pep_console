@@ -8,8 +8,10 @@ import MagneticButton from '../components/MagneticButton'
 import GitTimeline from '../components/GitTimeline'
 import GitHeatmap from '../components/GitHeatmap'
 import DevAvatar from '../components/DevAvatar'
+import { usePageTitle } from '../lib/hooks'
 
 function AboutPage() {
+  usePageTitle('About')
   return (
     <div className="page">
       <SectionHeading index="01" title="About Me" />
@@ -34,7 +36,7 @@ function AboutPage() {
           {profile.bio.map((p, i) => (
             <motion.p
               key={i}
-              className="mb-4 text-[16px] text-[#b3bfcc]"
+              className="mb-4 text-[16px] text-(--text-soft)"
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.6 + i * 0.15 }}

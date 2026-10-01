@@ -20,7 +20,45 @@
   --glow-green: 0 0 12px rgba(var(--green-rgb), 0.55);
   --glow-cyan: 0 0 12px rgba(var(--cyan-rgb), 0.55);
   --max-w: 1180px;
+  /* mode-dependent surfaces (overridden for light mode below) */
+  --bg-rgb: 5, 7, 10;
+  --panel-rgb: 11, 16, 22;
+  --heading: #ffffff;
+  --text-soft: #b3bfcc;
+  --faint: #3b4652;
+  --scanline: rgba(255, 255, 255, 0.025);
+  --shadow-deep: rgba(0, 0, 0, 0.8);
+  --scrim: rgba(0, 0, 0, 0.6);
+  --wipe-top: #071109;
+  --svg-dark: #0f1a24;
+  --svg-skin: #1b2733;
   color-scheme: dark;
+}
+
+/* Light ("white") mode — toggled by src/lib/theme.js (html[data-mode='light']) */
+:root[data-mode='light'] {
+  --bg: #f5f7fa;
+  --bg-rgb: 245, 247, 250;
+  --panel: #ffffff;
+  --panel-rgb: 255, 255, 255;
+  --panel-2: #eef2f6;
+  --border: #d5dde6;
+  --magenta: #c026d3;
+  --yellow: #b45309;
+  --text: #1f2933;
+  --muted: #5b6673;
+  --heading: #0b1016;
+  --text-soft: #3d4852;
+  --faint: #9aa5b1;
+  --scanline: rgba(0, 0, 0, 0.02);
+  --shadow-deep: rgba(15, 23, 42, 0.18);
+  --scrim: rgba(15, 23, 42, 0.35);
+  --wipe-top: #e6f4ea;
+  --svg-dark: #e3eaf1;
+  --svg-skin: #f4f7fa;
+  --glow-green: 0 0 10px rgba(var(--green-rgb), 0.3);
+  --glow-cyan: 0 0 10px rgba(var(--cyan-rgb), 0.3);
+  color-scheme: light;
 }
 
 @theme static {
@@ -72,8 +110,8 @@
     z-index: 9998;
     background: repeating-linear-gradient(
       to bottom,
-      rgba(255, 255, 255, 0.025) 0,
-      rgba(255, 255, 255, 0.025) 1px,
+      var(--scanline) 0,
+      var(--scanline) 1px,
       transparent 1px,
       transparent 3px
     );
@@ -163,6 +201,52 @@
 /* ===================== Special effects (not expressible as utilities) ===================== */
 
 @layer components {
+  /* === ProjectCard banner + hover sweep === */
+  .pc-banner {
+    background:
+      radial-gradient(circle at 50% 130%, color-mix(in srgb, var(--accent) 38%, transparent), transparent 70%),
+      linear-gradient(color-mix(in srgb, var(--accent) 10%, transparent) 1px, transparent 1px) 0 0 / 16px 16px,
+      linear-gradient(90deg, color-mix(in srgb, var(--accent) 10%, transparent) 1px, transparent 1px) 0 0 / 16px 16px,
+      var(--panel-2);
+  }
+  .pc-sweep {
+    background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.14) 50%, transparent 70%);
+    transform: translateX(-100%);
+  }
+  .group:hover .pc-sweep {
+    animation: pc-sweep 0.9s ease-out;
+  }
+
+  /* === Title shimmer (sweeps on parent .group hover) === */
+  .shimmer-text {
+    background: linear-gradient(110deg, var(--text) 35%, var(--accent, var(--green)) 50%, var(--text) 65%);
+    background-size: 250% 100%;
+    background-position: 100% 0;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    transition: background-position 0.8s ease;
+  }
+  .group:hover .shimmer-text {
+    background-position: 0 0;
+  }
+
+  /* === ServiceCard rotating border === */
+  .svc-border {
+    background: var(--border);
+    transition: box-shadow 0.35s;
+  }
+  .svc-border:hover {
+    background: conic-gradient(from var(--svc-angle, 0deg),var(--border) 0deg 60%, var(--green) 75%, var(--cyan) 88%, var(--border) 100%);
+    box-shadow: 0 20px 50px -25px rgba(var(--green-rgb), 0.5);
+    animation: svc-spin 3s linear infinite;
+  }
+
+  /* === ScrollCue wheel === */
+  .cue-wheel {
+    animation: cue-wheel 1.6s ease-in-out infinite;
+  }
+
   /* === GlitchText === */
   .glitch {
     position: relative;
@@ -232,7 +316,7 @@
   .pt-wipe {
     background:
       repeating-linear-gradient(to bottom, rgba(var(--green-rgb), 0.05) 0 1px, transparent 1px 4px),
-      linear-gradient(180deg, #071109, var(--bg));
+      linear-gradient(180deg, var(--wipe-top), var(--bg));
     border-bottom: 2px solid var(--green);
     box-shadow: 0 0 30px rgba(var(--green-rgb), 0.4);
   }
@@ -403,7 +487,7 @@
   .dav-orbit-dot--alt { fill: var(--cyan); }
   .dav-panel { animation: dav-float 5s ease-in-out infinite; }
   .dav-panel-bg {
-    fill: rgba(11, 16, 22, 0.9);
+    fill: rgba(var(--panel-rgb), 0.9);
     stroke: var(--cyan);
     stroke-width: 1;
   }
@@ -430,8 +514,8 @@
     animation: dav-breathe 4s ease-in-out infinite;
     transform-origin: center bottom;
   }
-  .dav-body { fill: #0f1a24; stroke: var(--green); stroke-width: 2; }
-  .dav-skin { fill: #1b2733; stroke: var(--green); stroke-width: 2; }
+  .dav-body { fill: var(--svg-dark); stroke: var(--green); stroke-width: 2; }
+  .dav-skin { fill: var(--svg-skin); stroke: var(--green); stroke-width: 2; }
   .dav-hair { fill: var(--green); opacity: 0.85; }
   .dav-phones { fill: none; stroke: var(--cyan); stroke-width: 5; stroke-linecap: round; }
   .dav-cup { fill: var(--cyan); }
@@ -444,7 +528,7 @@
     animation: dav-blink 4.5s infinite;
   }
   .dav-desk { stroke: rgba(var(--green-rgb), 0.35); stroke-width: 2; }
-  .dav-laptop { fill: #0b1016; stroke: var(--cyan); stroke-width: 2; }
+  .dav-laptop { fill: var(--panel); stroke: var(--cyan); stroke-width: 2; }
   .dav-logo {
     font-family: var(--font-mono);
     font-size: 20px;
@@ -453,7 +537,7 @@
     animation: dav-glow 2.4s ease-in-out infinite;
   }
   .dav-base { fill: var(--cyan); opacity: 0.8; }
-  .dav-mug { fill: #0f1a24; stroke: var(--green); stroke-width: 2; }
+  .dav-mug { fill: var(--svg-dark); stroke: var(--green); stroke-width: 2; }
   .dav-steam {
     fill: none;
     stroke: var(--text);
@@ -529,4 +613,23 @@
 @keyframes dav-scan {
   from { transform: translateY(-10px); }
   to { transform: translateY(305px); }
+}
+
+/* animatable angle for the ServiceCard border (browsers without @property show a static gradient) */
+@property --svc-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+@keyframes svc-spin { to { --svc-angle: 360deg; } }
+
+@keyframes pc-sweep {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(100%); }
+}
+
+@keyframes cue-wheel {
+  0% { opacity: 1; transform: translateY(0); }
+  70% { opacity: 0; transform: translateY(12px); }
+  100% { opacity: 0; transform: translateY(12px); }
 }

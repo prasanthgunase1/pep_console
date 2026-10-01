@@ -44,7 +44,7 @@ function buildGrid() {
 function GitHeatmap() {
   const ref = useRef(null)
   const inView = useInView(ref, { once: true, amount: 0.3 })
-  const { cells, total, monthLabels } = useMemo(buildGrid, [])
+  const { cells, total, monthLabels } = useMemo(() => buildGrid(), [])
 
   return (
     <div className="rounded-(--radius) border border-line bg-panel p-6" ref={ref}>

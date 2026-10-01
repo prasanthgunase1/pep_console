@@ -51,6 +51,28 @@ export const techStack = [
   'Next.js', 'GraphQL', 'PostgreSQL', 'Redis', 'Docker', 'Socket.io', 'Tailwind', 'Jest', 'Git',
 ]
 
+// "What I Do" cards on the Home page. `icon` must match a key in src/lib/icons.js (techIcons)
+export const services = [
+  {
+    icon: 'React',
+    title: 'Frontend Engineering',
+    description: 'Fast, accessible React apps with clean state management, smooth motion and pixel-perfect, responsive UI.',
+    tags: ['React', 'Redux Toolkit', 'Next.js', 'Tailwind', 'Motion'],
+  },
+  {
+    icon: 'Node.js',
+    title: 'Backend & APIs',
+    description: 'Secure, scalable REST & GraphQL APIs with Node and Express — auth, caching, real-time and solid data models.',
+    tags: ['Node.js', 'Express', 'MongoDB', 'GraphQL', 'Socket.io'],
+  },
+  {
+    icon: 'Docker',
+    title: 'DevOps & Delivery',
+    description: 'Containerised services, CI/CD pipelines and cloud deploys so features ship quickly and reliably.',
+    tags: ['Docker', 'GitHub Actions', 'AWS', 'Jest', 'Nginx'],
+  },
+]
+
 export const skills = [
   {
     group: 'frontend',

@@ -53,13 +53,32 @@ function SkillSphere() {
       frame = requestAnimationFrame(rotate)
     }
 
+    // touch / pen: drag to spin (mouse keeps hover-steering)
+    let drag = null
+    const clamp = (v) => Math.max(-0.06, Math.min(0.06, v))
+
     const onMove = (e) => {
+      if (drag) {
+        target = { x: clamp(-(e.clientY - drag.y) * 0.004), y: clamp((e.clientX - drag.x) * 0.004) }
+        drag = { x: e.clientX, y: e.clientY }
+        return
+      }
+      if (e.pointerType !== 'mouse') return
       const r = el.getBoundingClientRect()
       const dx = (e.clientX - r.left - r.width / 2) / (r.width / 2)
       const dy = (e.clientY - r.top - r.height / 2) / (r.height / 2)
       target = { x: -dy * 0.025, y: dx * 0.025 }
     }
-    const onLeave = () => {
+    const onDown = (e) => {
+      if (e.pointerType === 'mouse') return
+      drag = { x: e.clientX, y: e.clientY }
+    }
+    const onUp = () => {
+      drag = null
+      target = { ...IDLE }
+    }
+    const onLeave = (e) => {
+      if (drag && e.pointerType !== 'mouse') return
       target = { ...IDLE }
     }
     const onResize = () => {
@@ -68,20 +87,36 @@ function SkillSphere() {
     }
 
     render()
-    if (!reduced) frame = requestAnimationFrame(rotate)
+    // only spin while the globe is on screen
+    const io = new IntersectionObserver(([entry]) => {
+      cancelAnimationFrame(frame)
+      if (entry.isIntersecting && !reduced) frame = requestAnimationFrame(rotate)
+    })
+    io.observe(el)
     el.addEventListener('pointermove', onMove)
     el.addEventListener('pointerleave', onLeave)
+    el.addEventListener('pointerdown', onDown)
+    window.addEventListener('pointerup', onUp)
+    window.addEventListener('pointercancel', onUp)
     window.addEventListener('resize', onResize)
     return () => {
       cancelAnimationFrame(frame)
+      io.disconnect()
       el.removeEventListener('pointermove', onMove)
       el.removeEventListener('pointerleave', onLeave)
+      el.removeEventListener('pointerdown', onDown)
+      window.removeEventListener('pointerup', onUp)
+      window.removeEventListener('pointercancel', onUp)
       window.removeEventListener('resize', onResize)
     }
   }, [reduced])
 
   return (
-    <div className="relative mx-auto aspect-square w-full max-w-[440px] select-none" ref={ref} aria-label="Tech stack globe">
+    <div
+      className="relative mx-auto aspect-square w-full max-w-[440px] touch-pan-y select-none"
+      ref={ref}
+      aria-label="Tech stack globe"
+    >
       <div className="sphere-core" />
       {techStack.map((name) => {
         const Icon = techIcons[name]
@@ -89,7 +124,7 @@ function SkillSphere() {
           <span
             key={name}
             data-sphere-item
-            className="absolute top-1/2 left-1/2 inline-flex items-center gap-[6px] rounded-full border border-line bg-[rgba(11,16,22,0.85)] px-2.5 py-1 text-[13px] whitespace-nowrap text-fg will-change-[transform,opacity] [transition:color_0.2s,border-color_0.2s] hover:border-green hover:text-green [&_svg]:text-green"
+            className="absolute top-1/2 left-1/2 inline-flex items-center gap-[6px] rounded-full border border-line bg-[rgba(var(--panel-rgb),0.85)] px-2.5 py-1 text-[13px] whitespace-nowrap text-fg will-change-[transform,opacity] [transition:color_0.2s,border-color_0.2s] hover:border-green hover:text-green [&_svg]:text-green"
           >
             {Icon && <Icon />}
             {name}

@@ -7,9 +7,9 @@ import ProjectsPage from './pages/Projects'
 import ProjectDetailPage from './pages/ProjectDetail'
 import ContactPage from './pages/Contact'
 import NotFoundPage from './pages/NotFound'
-import { applyTheme, getTheme } from './lib/theme'
+import { applyMode, getMode } from './lib/theme'
 
-applyTheme(getTheme())
+applyMode(getMode()) // dark/light + accent theme
 
 function App() {
   return (

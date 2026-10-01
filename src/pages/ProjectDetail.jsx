@@ -5,10 +5,12 @@ import { projects } from '../data'
 import TerminalWindow from '../components/TerminalWindow'
 import MagneticButton from '../components/MagneticButton'
 import NotFoundPage from './NotFound'
+import { usePageTitle } from '../lib/hooks'
 
 function ProjectDetailPage() {
   const { slug } = useParams()
   const index = projects.findIndex((p) => p.slug === slug)
+  usePageTitle(index === -1 ? '404' : projects[index].title)
   if (index === -1) return <NotFoundPage />
 
   const project = projects[index]
@@ -50,7 +52,7 @@ function ProjectDetailPage() {
       <div className="grid grid-cols-[1.3fr_1fr] gap-6 max-tab:grid-cols-1">
         <TerminalWindow title="README.md">
           <h3 className="mb-[14px] font-mono text-[15px] text-(--accent)">## Highlights</h3>
-          <ul className="tri-list m-0 pl-[18px] text-[#b3bfcc] [&_li]:mb-2.5">
+          <ul className="tri-list m-0 pl-[18px] text-(--text-soft) [&_li]:mb-2.5">
             {project.highlights.map((h, i) => (
               <motion.li
                 key={h}

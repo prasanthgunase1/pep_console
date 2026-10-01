@@ -2,8 +2,10 @@ import { Link, useLocation } from 'react-router-dom'
 import { motion } from 'motion/react'
 import GlitchText from '../components/GlitchText'
 import MagneticButton from '../components/MagneticButton'
+import { usePageTitle } from '../lib/hooks'
 
 function NotFoundPage() {
+  usePageTitle('404')
   const { pathname } = useLocation()
 
   return (

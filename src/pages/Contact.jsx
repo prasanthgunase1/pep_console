@@ -6,6 +6,7 @@ import { socialIcons } from '../lib/icons'
 import SectionHeading from '../components/SectionHeading'
 import TerminalWindow from '../components/TerminalWindow'
 import MagneticButton from '../components/MagneticButton'
+import { usePageTitle } from '../lib/hooks'
 
 const FIELDS = [
   { name: 'name', label: 'name', type: 'text', placeholder: 'John Doe' },
@@ -14,9 +15,10 @@ const FIELDS = [
 ]
 
 const inputClass =
-  'w-full resize-y rounded-lg border border-line bg-[rgba(5,7,10,0.6)] px-[14px] py-3 text-fg caret-green outline-none [transition:border-color_0.25s,box-shadow_0.25s] placeholder:text-[#3b4652] focus:border-green focus:shadow-[0_0_0_3px_rgba(var(--green-rgb),0.12),var(--glow-green)]'
+  'w-full resize-y rounded-lg border border-line bg-[rgba(var(--bg-rgb),0.6)] px-[14px] py-3 text-fg caret-green outline-none [transition:border-color_0.25s,box-shadow_0.25s] placeholder:text-(--faint) focus:border-green focus:shadow-[0_0_0_3px_rgba(var(--green-rgb),0.12),var(--glow-green)]'
 
 function ContactPage() {
+  usePageTitle('Contact')
   const [form, setForm] = useState({ name: '', email: '', message: '' })
   const [status, setStatus] = useState('idle') // idle | sending | sent
   const [copied, setCopied] = useState(false)

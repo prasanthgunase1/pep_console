@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
 import { profile } from '../data'
-
-const BOOT_KEY = 'portfolio-booted'
+import { BOOT_EVENT, BOOT_KEY } from '../lib/hooks'
 
 const LINES = [
   '[    0.000] initializing portfolio kernel…',
@@ -44,6 +43,7 @@ function BootLoader() {
     } catch {
       /* storage unavailable */
     }
+    window.dispatchEvent(new Event(BOOT_EVENT))
   }, [visible])
 
   useEffect(() => {
@@ -79,7 +79,7 @@ function BootLoader() {
             </div>
             <span>{progress}%</span>
           </div>
-          <p className="absolute inset-x-0 bottom-[30px] text-center text-[12px] text-[#3b4652]">press any key to skip</p>
+          <p className="absolute inset-x-0 bottom-[30px] text-center text-[12px] text-(--faint)">press any key to skip</p>
         </motion.div>
       )}
     </AnimatePresence>

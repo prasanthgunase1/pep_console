@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { useReducedMotion } from '../lib/hooks'
-import { getCssVar } from '../lib/theme'
+import { getCssVar, THEME_EVENT } from '../lib/theme'
 
 const GLYPHS = '01{}[]<>/=;:$#&*+MERNmern'.split('')
 const FONT_SIZE = 16
@@ -18,12 +18,21 @@ function MatrixRain() {
     let drops = []
     let frame
     let last = 0
+    let primary = '#39ff14'
+    let secondary = '#00e5ff'
+    let fade = 'rgba(5, 7, 10, 0.12)'
+    const readColors = () => {
+      primary = getCssVar('--green') || primary
+      secondary = getCssVar('--cyan') || secondary
+      fade = `rgba(${getCssVar('--bg-rgb') || '5, 7, 10'}, 0.12)` // trail fade matches dark/light background
+    }
 
     const resize = () => {
       canvas.width = window.innerWidth
       canvas.height = window.innerHeight
       const cols = Math.ceil(canvas.width / FONT_SIZE)
       drops = Array.from({ length: cols }, () => Math.random() * -50)
+      ctx.font = `${FONT_SIZE}px JetBrains Mono, monospace` // resizing resets canvas state
     }
 
     const draw = (t) => {
@@ -31,11 +40,8 @@ function MatrixRain() {
       if (document.hidden || t - last < 1000 / FPS) return
       last = t
 
-      ctx.fillStyle = 'rgba(5, 7, 10, 0.12)'
+      ctx.fillStyle = fade
       ctx.fillRect(0, 0, canvas.width, canvas.height)
-      ctx.font = `${FONT_SIZE}px JetBrains Mono, monospace`
-      const primary = getCssVar('--green') || '#39ff14'
-      const secondary = getCssVar('--cyan') || '#00e5ff'
 
       drops.forEach((y, i) => {
         const char = GLYPHS[Math.floor(Math.random() * GLYPHS.length)]
@@ -46,11 +52,15 @@ function MatrixRain() {
     }
 
     resize()
+    readColors()
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
     window.addEventListener('resize', resize)
+    window.addEventListener(THEME_EVENT, readColors)
     frame = requestAnimationFrame(draw)
     return () => {
       cancelAnimationFrame(frame)
       window.removeEventListener('resize', resize)
+      window.removeEventListener(THEME_EVENT, readColors)
     }
   }, [reduced])
 

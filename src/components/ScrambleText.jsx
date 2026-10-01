@@ -5,8 +5,8 @@ import { useReducedMotion } from '../lib/hooks'
 const CHARS = '!<>-_\\/[]{}=+*^?#01ABCDEFXZ'
 
 // "Decrypts" text: random glyphs resolve left-to-right into the real string.
-// Replays on hover.
-function ScrambleText({ text, className = '', duration = 1100, delay = 0 }) {
+// Replays on hover. `start` lets a parent hold the effect back (e.g. until the boot screen closes).
+function ScrambleText({ text, className = '', duration = 1100, delay = 0, start = true }) {
   const ref = useRef(null)
   const frameRef = useRef(0)
   const inView = useInView(ref, { once: true, amount: 0.5 })
@@ -31,9 +31,9 @@ function ScrambleText({ text, className = '', duration = 1100, delay = 0 }) {
   }, [text, duration, delay])
 
   useEffect(() => {
-    if (inView && !reduced) run()
+    if (inView && start && !reduced) run()
     return () => cancelAnimationFrame(frameRef.current)
-  }, [inView, reduced, run])
+  }, [inView, start, reduced, run])
 
   return (
     <span

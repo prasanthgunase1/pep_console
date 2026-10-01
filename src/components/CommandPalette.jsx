@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AnimatePresence, motion } from 'motion/react'
 import { useKeyPress } from '../lib/hooks'
-import { PALETTE_EVENT, applyTheme, themes } from '../lib/theme'
+import { PALETTE_EVENT, applyMode, applyTheme, getMode, modes, themes } from '../lib/theme'
 import { navLinks, profile, projects, skills, socials } from '../data'
 
 const WELCOME = [
@@ -19,6 +19,7 @@ const HELP = [
   '  socials                             find me online',
   '  resume                              download my resume',
   '  theme <matrix|cyber|amber|synth>    change the color scheme',
+  '  mode <dark|light>                   switch dark / white mode',
   '  sudo hire-me                        ;)',
   '  clear | exit                        clear screen / close',
 ]
@@ -91,8 +92,12 @@ function CommandPalette() {
       case 'resume':
         window.open(profile.resume, '_blank')
         return print('→ opening resume…')
+      case 'mode':
+        if (!args[0]) return print(`mode: ${getMode()} (options: ${modes.join(', ')})`)
+        return applyMode(args[0]) ? print(`✔ ${args[0]} mode on`) : print(`unknown mode: ${args[0]}. try: ${modes.join(', ')}`)
       case 'theme':
         if (!args[0]) return print(`themes: ${Object.keys(themes).join(', ')}`)
+        if (modes.includes(args[0])) return applyMode(args[0]) && print(`✔ ${args[0]} mode on`)
         return applyTheme(args[0])
           ? print(`✔ theme set to "${args[0]}"`)
           : print(`unknown theme: ${args[0]}. try: ${Object.keys(themes).join(', ')}`)
@@ -141,14 +146,14 @@ function CommandPalette() {
     <AnimatePresence>
       {open && (
         <motion.div
-          className="fixed inset-0 z-500 flex items-start justify-center bg-[rgba(0,0,0,0.6)] px-4 pt-[14vh] pb-4 backdrop-blur-[4px]"
+          className="fixed inset-0 z-500 flex items-start justify-center bg-(--scrim) px-4 pt-[14vh] pb-4 backdrop-blur-[4px]"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={() => setOpen(false)}
         >
           <motion.div
-            className="w-full max-w-[680px] overflow-hidden rounded-(--radius) border border-green bg-[rgba(8,12,17,0.97)] shadow-[0_0_0_1px_rgba(var(--green-rgb),0.2),0_0_60px_rgba(var(--green-rgb),0.18)]"
+            className="w-full max-w-[680px] overflow-hidden rounded-(--radius) border border-green bg-[rgba(var(--panel-rgb),0.97)] shadow-[0_0_0_1px_rgba(var(--green-rgb),0.2),0_0_60px_rgba(var(--green-rgb),0.18)]"
             initial={{ opacity: 0, scale: 0.92, y: -20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: -10 }}
@@ -188,7 +193,7 @@ function CommandPalette() {
                   autoComplete="off"
                   aria-label="Command"
                   placeholder="type a command…"
-                  className="flex-1 border-none bg-transparent text-fg caret-green outline-none placeholder:text-[#3b4652]"
+                  className="flex-1 border-none bg-transparent text-fg caret-green outline-none placeholder:text-(--faint)"
                 />
               </form>
             </div>

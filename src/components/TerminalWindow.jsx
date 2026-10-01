@@ -2,7 +2,7 @@
 function TerminalWindow({ title = 'bash', children, className = '' }) {
   return (
     <div
-      className={`overflow-hidden rounded-(--radius) border border-line bg-[rgba(11,16,22,0.88)] shadow-[0_30px_80px_-30px_rgba(0,0,0,0.8),0_0_0_1px_rgba(var(--green-rgb),0.04)] backdrop-blur-[8px] ${className}`}
+      className={`overflow-hidden rounded-(--radius) border border-line bg-[rgba(var(--panel-rgb),0.88)] shadow-[0_30px_80px_-30px_var(--shadow-deep),0_0_0_1px_rgba(var(--green-rgb),0.04)] ${className}`}
     >
       <div className="flex items-center gap-2 border-b border-line bg-panel-2 px-[14px] py-[11px]">
         <span className="h-3 w-3 rounded-full bg-[#ff5f57]" />

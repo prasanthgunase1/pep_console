@@ -1,38 +1,76 @@
 export const THEME_EVENT = 'theme-change'
+export const MODE_EVENT = 'mode-change'
 const STORAGE_KEY = 'portfolio-theme'
+const MODE_KEY = 'portfolio-mode'
 
+// Accent themes. `light` holds darker variants that stay readable on a white background.
 export const themes = {
-  matrix: { primary: '#39ff14', primaryRgb: '57, 255, 20', secondary: '#00e5ff', secondaryRgb: '0, 229, 255' },
-  cyber: { primary: '#00e5ff', primaryRgb: '0, 229, 255', secondary: '#ff2bd6', secondaryRgb: '255, 43, 214' },
-  amber: { primary: '#ffb000', primaryRgb: '255, 176, 0', secondary: '#ff6b35', secondaryRgb: '255, 107, 53' },
-  synth: { primary: '#ff2bd6', primaryRgb: '255, 43, 214', secondary: '#8b5cf6', secondaryRgb: '139, 92, 246' },
+  matrix: {
+    primary: '#39ff14', primaryRgb: '57, 255, 20', secondary: '#00e5ff', secondaryRgb: '0, 229, 255',
+    light: { primary: '#15803d', primaryRgb: '21, 128, 61', secondary: '#0e7490', secondaryRgb: '14, 116, 144' },
+  },
+  cyber: {
+    primary: '#00e5ff', primaryRgb: '0, 229, 255', secondary: '#ff2bd6', secondaryRgb: '255, 43, 214',
+    light: { primary: '#0e7490', primaryRgb: '14, 116, 144', secondary: '#be185d', secondaryRgb: '190, 24, 93' },
+  },
+  amber: {
+    primary: '#ffb000', primaryRgb: '255, 176, 0', secondary: '#ff6b35', secondaryRgb: '255, 107, 53',
+    light: { primary: '#b45309', primaryRgb: '180, 83, 9', secondary: '#c2410c', secondaryRgb: '194, 65, 12' },
+  },
+  synth: {
+    primary: '#ff2bd6', primaryRgb: '255, 43, 214', secondary: '#8b5cf6', secondaryRgb: '139, 92, 246',
+    light: { primary: '#be185d', primaryRgb: '190, 24, 93', secondary: '#6d28d9', secondaryRgb: '109, 40, 217' },
+  },
 }
 
-export const getTheme = () => {
+export const modes = ['dark', 'light']
+
+const read = (key, valid, fallback) => {
   try {
-    const saved = localStorage.getItem(STORAGE_KEY)
-    return themes[saved] ? saved : 'matrix'
+    const saved = localStorage.getItem(key)
+    return valid(saved) ? saved : fallback
   } catch {
-    return 'matrix'
+    return fallback
   }
 }
+
+const save = (key, value) => {
+  try {
+    localStorage.setItem(key, value)
+  } catch {
+    /* storage unavailable */
+  }
+}
+
+export const getTheme = () => read(STORAGE_KEY, (v) => Boolean(themes[v]), 'matrix')
+
+export const getMode = () => read(MODE_KEY, (v) => modes.includes(v), 'dark')
 
 export const applyTheme = (name) => {
   const theme = themes[name]
   if (!theme) return false
+  const colors = getMode() === 'light' ? theme.light : theme
   const root = document.documentElement.style
-  root.setProperty('--green', theme.primary)
-  root.setProperty('--green-rgb', theme.primaryRgb)
-  root.setProperty('--cyan', theme.secondary)
-  root.setProperty('--cyan-rgb', theme.secondaryRgb)
-  try {
-    localStorage.setItem(STORAGE_KEY, name)
-  } catch {
-    /* storage unavailable */
-  }
+  root.setProperty('--green', colors.primary)
+  root.setProperty('--green-rgb', colors.primaryRgb)
+  root.setProperty('--cyan', colors.secondary)
+  root.setProperty('--cyan-rgb', colors.secondaryRgb)
+  save(STORAGE_KEY, name)
   window.dispatchEvent(new CustomEvent(THEME_EVENT, { detail: name }))
   return true
 }
+
+// Dark / light mode: swaps the base palette (index.css [data-mode='light']) and re-applies the accent theme.
+export const applyMode = (mode) => {
+  if (!modes.includes(mode)) return false
+  document.documentElement.dataset.mode = mode
+  save(MODE_KEY, mode)
+  applyTheme(getTheme())
+  window.dispatchEvent(new CustomEvent(MODE_EVENT, { detail: mode }))
+  return true
+}
+
+export const toggleMode = () => applyMode(getMode() === 'light' ? 'dark' : 'light')
 
 export const getCssVar = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim()
 

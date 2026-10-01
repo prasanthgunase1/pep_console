@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from 'react'
 import { useMotionValue, useReducedMotion as useMotionReduced } from 'motion/react'
+import { profile } from '../data'
 
 export function useTypewriter(words, { typeSpeed = 70, deleteSpeed = 40, pause = 1600 } = {}) {
   const [index, setIndex] = useState(0)
@@ -72,4 +73,37 @@ export function useKeyPress(combo, handler) {
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [combo])
+}
+
+// ─── Boot screen ──────────────────────────────────────────────
+export const BOOT_KEY = 'portfolio-booted'
+export const BOOT_EVENT = 'boot-done'
+
+const hasBooted = () => {
+  try {
+    return sessionStorage.getItem(BOOT_KEY) === '1'
+  } catch {
+    return true
+  }
+}
+
+// true once the BootLoader has finished (immediately on repeat visits)
+export function useBootDone() {
+  const [done, setDone] = useState(hasBooted)
+
+  useEffect(() => {
+    if (done) return
+    const onDone = () => setDone(true)
+    window.addEventListener(BOOT_EVENT, onDone)
+    return () => window.removeEventListener(BOOT_EVENT, onDone)
+  }, [done])
+
+  return done
+}
+
+// ─── Document title ───────────────────────────────────────────
+export function usePageTitle(title) {
+  useEffect(() => {
+    document.title = title ? `${title} · ${profile.name}` : `${profile.name} | ${profile.role}`
+  }, [title])
 }

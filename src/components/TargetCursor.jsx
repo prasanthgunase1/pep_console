@@ -40,6 +40,7 @@ function TargetCursor() {
     root.classList.add('has-target-cursor')
     let last = { x: -100, y: -100 }
     let lastTrail = { x: 0, y: 0 }
+    let overField = null // only re-render when this actually changes
 
     const frame = () => {
       const t = targetRef.current
@@ -75,7 +76,11 @@ function TargetCursor() {
       last = { x: e.clientX, y: e.clientY }
       dotX.set(e.clientX)
       dotY.set(e.clientY)
-      setHidden(Boolean(e.target.closest?.(TEXT_FIELDS)))
+      const field = Boolean(e.target.closest?.(TEXT_FIELDS))
+      if (field !== overField) {
+        overField = field
+        setHidden(field)
+      }
 
       const t = e.target.closest?.(INTERACTIVE) ?? null
       if (t !== targetRef.current) {
@@ -89,7 +94,10 @@ function TargetCursor() {
 
     const onDown = () => setPressed(true)
     const onUp = () => setPressed(false)
-    const onLeave = () => setHidden(true)
+    const onLeave = () => {
+      overField = null
+      setHidden(true)
+    }
     const onScroll = () => frame()
 
     window.addEventListener('pointermove', onMove)
