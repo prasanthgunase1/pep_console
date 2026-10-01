@@ -59,7 +59,7 @@ function BootLoader() {
     <AnimatePresence>
       {visible && (
         <motion.div
-          className="fixed inset-0 z-1000 flex cursor-pointer flex-col justify-center bg-bg px-[max(24px,10vw)] text-[clamp(12px,1.6vw,15px)]"
+          className="fixed inset-0 z-1000 flex cursor-pointer flex-col justify-center bg-bg px-[max(24px,10vw)] text-[clamp(12px,1.6vw,15px)] max-xs:px-4 max-xs:text-[11px] short:justify-start short:overflow-y-auto short:py-6"
           onClick={() => setVisible(false)}
           exit={{ opacity: 0, scale: 1.04, filter: 'blur(8px)' }}
           transition={{ duration: 0.6 }}

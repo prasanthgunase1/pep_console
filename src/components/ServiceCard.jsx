@@ -6,7 +6,7 @@ function ServiceCard({ service, index }) {
 
   return (
     <div className="svc-border group h-full rounded-(--radius) p-px">
-      <article className="flex h-full flex-col rounded-[11px] bg-panel p-7">
+      <article className="flex h-full flex-col rounded-[11px] bg-panel p-7 max-lap:p-6 max-xs:p-5">
         <div className="flex items-center justify-between">
           <span className="grid h-14 w-14 place-items-center rounded-xl border border-line bg-panel-2 text-[28px] text-green [transition:transform_0.35s,box-shadow_0.35s,border-color_0.35s] group-hover:[transform:translateY(-4px)_rotate(-6deg)] group-hover:border-green group-hover:shadow-(--glow-green)">
             {Icon && <Icon />}

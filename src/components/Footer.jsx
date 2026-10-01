@@ -21,7 +21,7 @@ function Footer() {
 
   return (
     <footer className="relative z-1 border-t border-line bg-[rgba(var(--bg-rgb),0.85)]">
-      <div className="mx-auto flex max-w-(--max-w) flex-wrap items-center justify-between gap-4 px-6 py-7 text-[13px] text-muted max-phone:flex-col max-phone:px-4 max-phone:py-6 max-phone:text-center">
+      <div className="mx-auto flex max-w-(--max-w) flex-wrap items-center justify-between gap-4 px-6 py-7 text-[13px] text-muted wide:px-8 qhd:px-10 qhd:text-[15px] max-tab:justify-center max-phone:flex-col max-phone:px-4 max-phone:py-6 max-phone:text-center">
         <div className="flex gap-[14px]">
           {socials.map((s) => {
             const Icon = socialIcons[s.icon]

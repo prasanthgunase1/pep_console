@@ -47,7 +47,7 @@ function GitHeatmap() {
   const { cells, total, monthLabels } = useMemo(() => buildGrid(), [])
 
   return (
-    <div className="rounded-(--radius) border border-line bg-panel p-6" ref={ref}>
+    <div className="rounded-(--radius) border border-line bg-panel p-6 max-phone:p-4" ref={ref}>
       <p className="mb-4 text-[14px] text-muted">
         <span className="text-green">{total.toLocaleString()}</span> contributions in the last year
       </p>

@@ -12,7 +12,7 @@ function BackToTop() {
     <AnimatePresence>
       {show && (
         <motion.button
-          className="fixed right-6 bottom-6 z-90 inline-flex items-center gap-2 rounded-lg border border-green bg-[rgba(var(--bg-rgb),0.85)] px-4 py-2.5 font-mono text-[13px] text-green shadow-(--glow-green) backdrop-blur-[6px] [transition:background_0.25s,color_0.25s] hover:bg-green hover:text-bg max-phone:right-4 max-phone:bottom-4"
+          className="fixed right-6 bottom-6 z-90 inline-flex items-center gap-2 rounded-lg border border-green bg-[rgba(var(--bg-rgb),0.85)] px-4 py-2.5 font-mono text-[13px] text-green shadow-(--glow-green) backdrop-blur-[6px] [transition:background_0.25s,color_0.25s] hover:bg-green hover:text-bg max-phone:right-4 max-phone:bottom-4 max-phone:px-3 max-phone:py-2 max-phone:text-[12px]"
           initial={{ opacity: 0, y: 30, scale: 0.8 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 30, scale: 0.8 }}

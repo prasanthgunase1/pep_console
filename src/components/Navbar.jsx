@@ -5,7 +5,7 @@ import { FaBars, FaMoon, FaSun, FaXmark, FaTerminal } from 'react-icons/fa6'
 import { navLinks, profile } from '../data'
 import { getMode, MODE_EVENT, openCommandPalette, toggleMode } from '../lib/theme'
 
-const linkBase = 'relative text-[14px] [transition:color_0.2s] hover:text-fg'
+const linkBase = 'relative text-[14px] qhd:text-[17px] [transition:color_0.2s] hover:text-fg'
 
 function Navbar() {
   const [open, setOpen] = useState(false)
@@ -29,7 +29,7 @@ function Navbar() {
         end={link.path === '/'}
         className={({ isActive }) =>
           `${linkBase} ${isActive ? 'text-fg' : 'text-muted'} ${
-            mobile ? 'border-b border-dashed border-line px-1 py-[14px]' : 'px-3 py-[6px]'
+            mobile ? 'border-b border-dashed border-line px-1 py-[14px]' : 'px-3 py-[6px] max-tab:px-2'
           }`
         }
         onClick={() => setOpen(false)}
@@ -41,7 +41,7 @@ function Navbar() {
             {isActive && !mobile && (
               <motion.span
                 layoutId="nav-underline"
-                className="absolute right-3 bottom-0 left-3 h-[2px] bg-green shadow-(--glow-green)"
+                className="absolute right-3 bottom-0 left-3 h-[2px] max-tab:right-2 max-tab:left-2 bg-green shadow-(--glow-green)"
               />
             )}
           </>
@@ -58,14 +58,14 @@ function Navbar() {
       animate={{ y: 0 }}
       transition={{ duration: 0.6, ease: 'easeOut' }}
     >
-      <div className="mx-auto flex max-w-(--max-w) items-center justify-between gap-5 px-6 py-[18px] max-nav:px-4 max-nav:py-[14px]">
-        <NavLink to="/" className="text-[17px] font-bold tracking-[0.02em]">
+      <div className="mx-auto flex max-w-(--max-w) items-center justify-between gap-5 px-6 py-[18px] max-tab:gap-3 max-nav:px-4 max-nav:py-[14px] max-xs:px-3 wide:px-8 qhd:px-10 qhd:py-6">
+        <NavLink to="/" className="text-[17px] font-bold tracking-[0.02em] max-xs:text-[15px] qhd:text-[21px]">
           <span className="text-cyan">&lt;</span>
           {profile.handle}
           <span className="text-cyan"> /&gt;</span>
         </NavLink>
 
-        <nav className="flex gap-2 max-nav:hidden">{renderLinks(false)}</nav>
+        <nav className="flex gap-2 max-tab:gap-0 max-nav:hidden">{renderLinks(false)}</nav>
 
         <div className="flex items-center gap-2.5">
           <button
@@ -73,7 +73,7 @@ function Navbar() {
             onClick={openCommandPalette}
             aria-label="Open command palette"
           >
-            <FaTerminal /> <kbd className="font-mono max-nav:hidden">Ctrl K</kbd>
+            <FaTerminal /> <kbd className="font-mono max-tab:hidden">Ctrl K</kbd>
           </button>
           <button
             className="relative grid h-[30px] w-[34px] place-items-center overflow-hidden rounded-lg border border-line bg-panel text-[14px] text-muted [transition:border-color_0.2s,color_0.2s] hover:border-green hover:text-green"

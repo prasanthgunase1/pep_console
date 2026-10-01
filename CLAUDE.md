@@ -58,7 +58,20 @@ All routes render inside `components/MainLayout.jsx`, which adds the background 
 - Use custom CSS in `index.css` (`@layer components`) only for things utilities can't express: keyframes, `::before/::after`, SVG animation, complex gradients. Label each block `/* === Name === */`.
 - Color utilities map to runtime CSS vars: `bg-bg`, `bg-panel`, `bg-panel-2`, `border-line`, `text-fg`, `text-muted`, `text-green` (primary accent), `text-cyan` (secondary), `text-magenta`, `text-yellow`.
 - Never hardcode dark colors. Use the mode variables instead, so light mode keeps working: `--bg-rgb`, `--panel-rgb`, `--heading`, `--text-soft`, `--faint`, `--scrim`, `--shadow-deep`.
-- Breakpoints (max-width style): `max-phone:` 600px, `max-nav:` 760px, `max-tab:` 900px.
+- Breakpoints (defined in `index.css` `@theme`), from small to large:
+  | Variant | Media query | Target |
+  |---|---|---|
+  | `max-xs:` | `max-width: 380px` | small phones (iPhone SE) |
+  | `max-phone:` | `max-width: 600px` | phones |
+  | `max-nav:` | `max-width: 760px` | large phones / small tablets (burger menu) |
+  | `max-tab:` | `max-width: 900px` | tablets (layouts stack to 1 column) |
+  | `max-lap:` | `max-width: 1200px` | small laptops |
+  | `wide:` | `min-width: 1440px` | large desktops (`--max-w` 1320px) |
+  | `ultra:` | `min-width: 1680px` | **1920×1080 Full HD** (`--max-w` 1520px, 16px base). Starts at 1680 so it still matches with zoom/scaling up to ~115% |
+  | `qhd:` | `min-width: 2400px` | 2K / 4K monitors (`--max-w` 1840px, 18px base) |
+  | `short:` | `max-height: 520px` + landscape | phones held sideways |
+  | `lowh:` | `min-width: 901px` + `max-height: 820px` | wide-but-short windows (1280×720, or 1920×1080 at 150% scaling) |
+- Remember that Windows scaling shrinks the CSS viewport: 1920×1080 at 125% → 1536px wide, at 150% → 1280px.
 - Shared classes: `.page`, `.section`, `.grid-3`, `.btn`, `.btn--cyan`, `.blink-cursor`.
 
 ## Themes & modes

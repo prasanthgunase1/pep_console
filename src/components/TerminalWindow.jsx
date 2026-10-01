@@ -10,7 +10,7 @@ function TerminalWindow({ title = 'bash', children, className = '' }) {
         <span className="h-3 w-3 rounded-full bg-[#28c840]" />
         <span className="mr-11 flex-1 text-center text-[12px] text-muted">{title}</span>
       </div>
-      <div className="px-5 py-[18px] text-[14px]">{children}</div>
+      <div className="px-5 py-[18px] text-[14px] ultra:px-6 ultra:text-[15px] qhd:px-8 qhd:py-6 qhd:text-[17px]">{children}</div>
     </div>
   )
 }

@@ -56,7 +56,7 @@ function ContactPage() {
         subtitle="Have a project, a role, or just want to say hi? My inbox is always open."
       />
 
-      <div className="grid grid-cols-[1.5fr_1fr] items-start gap-10 max-tab:grid-cols-1">
+      <div className="grid grid-cols-[1.5fr_1fr] items-start gap-10 max-lap:grid-cols-[1.3fr_1fr] max-tab:grid-cols-1 max-phone:gap-8">
         <motion.div
           initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
@@ -137,7 +137,7 @@ function ContactPage() {
           transition={{ duration: 0.6, delay: 0.55 }}
         >
           <p className="text-muted">// prefer email?</p>
-          <button className="flex items-center justify-between gap-3 rounded-[10px] border border-line bg-panel px-[18px] py-4 text-left text-[15px] break-all [transition:border-color_0.2s,color_0.2s] hover:border-cyan hover:text-cyan" onClick={copyEmail} data-cursor="hover">
+          <button className="flex items-center justify-between gap-3 rounded-[10px] border border-line bg-panel px-[18px] py-4 text-left text-[15px] break-all max-xs:px-3.5 max-xs:text-[13px] [transition:border-color_0.2s,color_0.2s] hover:border-cyan hover:text-cyan" onClick={copyEmail} data-cursor="hover">
             <span>{profile.email}</span>
             {copied ? <FaCheck className="text-green" /> : <FaCopy />}
           </button>

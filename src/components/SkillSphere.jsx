@@ -113,7 +113,7 @@ function SkillSphere() {
 
   return (
     <div
-      className="relative mx-auto aspect-square w-full max-w-[440px] touch-pan-y select-none"
+      className="relative mx-auto aspect-square w-full max-w-[440px] touch-pan-y ultra:max-w-[520px] qhd:max-w-[640px] select-none"
       ref={ref}
       aria-label="Tech stack globe"
     >
@@ -124,7 +124,7 @@ function SkillSphere() {
           <span
             key={name}
             data-sphere-item
-            className="absolute top-1/2 left-1/2 inline-flex items-center gap-[6px] rounded-full border border-line bg-[rgba(var(--panel-rgb),0.85)] px-2.5 py-1 text-[13px] whitespace-nowrap text-fg will-change-[transform,opacity] [transition:color_0.2s,border-color_0.2s] hover:border-green hover:text-green [&_svg]:text-green"
+            className="absolute top-1/2 left-1/2 inline-flex items-center gap-[6px] rounded-full border border-line bg-[rgba(var(--panel-rgb),0.85)] px-2.5 py-1 text-[13px] whitespace-nowrap max-phone:px-2 max-phone:text-[11px] ultra:text-[14px] qhd:text-[17px] text-fg will-change-[transform,opacity] [transition:color_0.2s,border-color_0.2s] hover:border-green hover:text-green [&_svg]:text-green"
           >
             {Icon && <Icon />}
             {name}

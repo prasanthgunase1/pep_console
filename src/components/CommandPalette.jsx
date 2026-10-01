@@ -146,7 +146,7 @@ function CommandPalette() {
     <AnimatePresence>
       {open && (
         <motion.div
-          className="fixed inset-0 z-500 flex items-start justify-center bg-(--scrim) px-4 pt-[14vh] pb-4 backdrop-blur-[4px]"
+          className="fixed inset-0 z-500 flex items-start justify-center bg-(--scrim) px-4 pt-[14vh] pb-4 backdrop-blur-[4px] max-phone:px-3 max-phone:pt-[10vh] short:pt-4"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -172,7 +172,7 @@ function CommandPalette() {
               <span className="flex-1 text-center text-[12px] text-muted">{profile.handle}@portfolio: ~</span>
               <kbd className="rounded-[4px] border border-line px-[6px] py-[2px] font-mono text-[11px] text-muted">esc</kbd>
             </div>
-            <div className="max-h-[55vh] overflow-y-auto px-[18px] py-4 text-[13.5px]" ref={bodyRef}>
+            <div className="max-h-[55vh] overflow-y-auto px-[18px] py-4 text-[13.5px] max-phone:px-3.5 max-phone:text-[12px] short:max-h-[70vh]" ref={bodyRef}>
               {lines.map((line, i) => (
                 <div
                   key={i}

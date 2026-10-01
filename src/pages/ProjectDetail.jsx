@@ -23,14 +23,14 @@ function ProjectDetailPage() {
       </Link>
 
       <motion.header
-        className="relative mt-[30px] mb-[50px] overflow-hidden rounded-2xl border border-line p-11 [background:radial-gradient(circle_at_85%_10%,color-mix(in_srgb,var(--accent)_22%,transparent),transparent_55%),var(--panel)] max-phone:px-5 max-phone:py-[26px]"
+        className="relative mt-[30px] mb-[50px] overflow-hidden rounded-2xl border border-line p-11 max-tab:p-8 [background:radial-gradient(circle_at_85%_10%,color-mix(in_srgb,var(--accent)_22%,transparent),transparent_55%),var(--panel)] max-phone:px-5 max-phone:py-[26px]"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.4 }}
       >
         <span className="text-[12px] tracking-[0.15em] text-(--accent) uppercase">{project.category}</span>
         <h1 className="mt-2.5 text-[clamp(36px,6vw,68px)]">{project.title}</h1>
-        <p className="mt-[14px] max-w-[620px] text-[17px] text-muted">{project.description}</p>
+        <p className="mt-[14px] max-w-[620px] text-[17px] text-muted max-phone:text-[15px]">{project.description}</p>
         <div className="mt-[30px] flex flex-wrap gap-[14px]">
           {project.github && (
             <MagneticButton>
@@ -49,7 +49,7 @@ function ProjectDetailPage() {
         </div>
       </motion.header>
 
-      <div className="grid grid-cols-[1.3fr_1fr] gap-6 max-tab:grid-cols-1">
+      <div className="grid grid-cols-[1.3fr_1fr] gap-6 max-lap:grid-cols-[1.1fr_1fr] max-tab:grid-cols-1 max-phone:gap-4">
         <TerminalWindow title="README.md">
           <h3 className="mb-[14px] font-mono text-[15px] text-(--accent)">## Highlights</h3>
           <ul className="tri-list m-0 pl-[18px] text-(--text-soft) [&_li]:mb-2.5">

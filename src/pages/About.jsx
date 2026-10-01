@@ -16,7 +16,7 @@ function AboutPage() {
     <div className="page">
       <SectionHeading index="01" title="About Me" />
 
-      <div className="grid grid-cols-[1.4fr_1fr] items-center gap-[60px] max-tab:grid-cols-1">
+      <div className="grid grid-cols-[1.4fr_1fr] items-center gap-[60px] max-lap:gap-10 max-tab:grid-cols-1 max-tab:gap-12">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -36,7 +36,7 @@ function AboutPage() {
           {profile.bio.map((p, i) => (
             <motion.p
               key={i}
-              className="mb-4 text-[16px] text-(--text-soft)"
+              className="mb-4 text-[16px] text-(--text-soft) max-phone:text-[15px] ultra:text-[17px]"
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.6 + i * 0.15 }}
@@ -66,7 +66,7 @@ function AboutPage() {
 
       <section className="section">
         <SectionHeading index="02" title="Tech Arsenal" subtitle="installed packages in my brain ⚡" />
-        <div className="grid grid-cols-2 gap-6 max-tab:grid-cols-1">
+        <div className="grid grid-cols-2 gap-6 max-tab:grid-cols-1 max-phone:gap-4 ultra:gap-8">
           {skills.map((group, gi) => (
             <TerminalWindow key={group.group} title={`~/skills/${group.group}`}>
               {group.items.map((s, i) => (

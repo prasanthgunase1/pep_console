@@ -50,29 +50,29 @@ function HomePage() {
 
   return (
     <div className="page">
-      <section className="grid min-h-[calc(100vh-200px)] grid-cols-[1.1fr_1fr] items-center gap-14 max-tab:min-h-0 max-tab:grid-cols-1 max-tab:gap-12">
+      <section className="grid min-h-[calc(100svh-200px)] grid-cols-[1.1fr_1fr] items-center gap-14 max-lap:gap-10 max-tab:min-h-0 max-tab:grid-cols-1 max-tab:gap-12 max-phone:gap-10 short:min-h-0 ultra:gap-20 qhd:gap-28 lowh:min-h-[calc(100svh-150px)]">
         <motion.div variants={container} initial="hidden" animate={ready ? 'show' : 'hidden'}>
           {profile.available && (
             <motion.span variants={item} className="inline-flex items-center gap-2.5 rounded-full border border-[rgba(var(--green-rgb),0.35)] bg-[rgba(var(--green-rgb),0.06)] px-[14px] py-[6px] text-[12px] text-green">
               <span className="hero-pulse h-2 w-2 rounded-full bg-green" /> available for new opportunities
             </motion.span>
           )}
-          <motion.p variants={item} className="mt-[26px] text-muted">
+          <motion.p variants={item} className="mt-[26px] text-muted lowh:mt-4">
             <span className="text-green">&gt;</span> Hello world, I&apos;m
           </motion.p>
-          <motion.h1 variants={item} className="mt-2 flex flex-col text-[clamp(40px,6.4vw,78px)] leading-[1.02] font-bold tracking-[-0.02em] text-(--heading) [text-shadow:0_0_30px_rgba(var(--green-rgb),0.25)]">
+          <motion.h1 variants={item} className="mt-2 flex flex-col text-[clamp(40px,6.4vw,78px)] leading-[1.02] max-xs:text-[34px] ultra:text-[96px] qhd:text-[124px] lowh:text-[60px] font-bold tracking-[-0.02em] text-(--heading) [text-shadow:0_0_30px_rgba(var(--green-rgb),0.25)]">
             <GlitchText text={profile.firstName} className="self-start">
               <ScrambleText text={profile.firstName} delay={500} start={ready} />
             </GlitchText>
             <ScrambleText text={profile.lastName} delay={800} duration={1400} start={ready} className="text-transparent [-webkit-text-stroke:1.5px_var(--green)] [filter:drop-shadow(0_0_10px_rgba(var(--green-rgb),0.45))] [text-shadow:none] [transition:color_0.4s] hover:text-green" />
           </motion.h1>
-          <motion.h2 variants={item} className="mt-3 min-h-[1.3em] font-mono text-[clamp(18px,2.6vw,26px)] font-medium">
+          <motion.h2 variants={item} className="mt-3 min-h-[1.3em] font-mono text-[clamp(18px,2.6vw,26px)] font-medium max-xs:text-[16px] ultra:text-[30px] qhd:text-[38px] lowh:text-[22px]">
             <TypingText words={profile.roles} className="text-cyan" />
           </motion.h2>
-          <motion.p variants={item} className="mt-5 max-w-[520px] text-[16px] text-muted">
+          <motion.p variants={item} className="mt-5 max-w-[520px] text-[16px] text-muted max-xs:text-[14px] ultra:max-w-[640px] ultra:text-[18px] qhd:max-w-[780px] qhd:text-[21px]">
             {profile.tagline}
           </motion.p>
-          <motion.div variants={item} className="mt-[34px] flex flex-wrap gap-4">
+          <motion.div variants={item} className="mt-[34px] flex flex-wrap gap-4 max-xs:gap-3 lowh:mt-6">
             <MagneticButton>
               <Link to="/projects" className="btn">
                 view_projects() <FaArrowRight />
@@ -98,7 +98,7 @@ function HomePage() {
         >
           <div className="hero-orb absolute -inset-10 -z-1" />
           <TerminalWindow title={`${profile.handle}@portfolio: ~`}>
-            <pre className="m-0 min-h-[300px] font-mono text-[13.5px] leading-[1.75] whitespace-pre-wrap max-phone:min-h-0 max-phone:text-[12px]">
+            <pre className="m-0 min-h-[300px] font-mono text-[13.5px] leading-[1.75] whitespace-pre-wrap max-phone:min-h-0 max-phone:text-[12px] max-xs:text-[11px] ultra:text-[15px] qhd:text-[18px] lowh:min-h-[250px] lowh:leading-[1.6]">
               {ready && termLines.map((line, i) => (
                 <motion.div
                   key={i}
@@ -116,7 +116,7 @@ function HomePage() {
 
       <ScrollCue show={ready} />
 
-      <section className="mt-[60px] grid grid-cols-4 gap-5 max-tab:grid-cols-2 max-phone:gap-3">
+      <section className="mt-[60px] grid grid-cols-4 gap-5 max-lap:gap-4 max-tab:grid-cols-2 max-phone:mt-12 max-phone:gap-3">
         {stats.map((s, i) => (
           <motion.div
             key={s.label}
@@ -136,7 +136,7 @@ function HomePage() {
 
       <section className="section">
         <SectionHeading index="01" title="System Info" subtitle="$ neofetch — hover or swipe the globe to spin my stack" />
-        <div className="grid grid-cols-[1.1fr_1fr] items-center gap-10 max-tab:grid-cols-1">
+        <div className="grid grid-cols-[1.1fr_1fr] items-center gap-10 max-lap:grid-cols-[1.2fr_1fr] max-tab:grid-cols-1 max-tab:gap-8">
           <motion.div
             initial={{ opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}

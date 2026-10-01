@@ -11,8 +11,8 @@ function SectionHeading({ index, title, subtitle }) {
       viewport={{ once: true, amount: 0.6 }}
       transition={{ duration: 0.6, ease: 'easeOut' }}
     >
-      <span className="text-[15px] text-green">// {index}.</span>
-      <h2 className="text-[clamp(26px,4vw,38px)]">
+      <span className="text-[15px] text-green qhd:text-[18px]">// {index}.</span>
+      <h2 className="text-[clamp(26px,4vw,38px)] ultra:text-[44px] qhd:text-[54px]">
         <ScrambleText text={title} delay={150} />
       </h2>
       <motion.span

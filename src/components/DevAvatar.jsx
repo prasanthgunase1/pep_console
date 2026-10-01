@@ -5,7 +5,7 @@ import { profile } from '../data'
 function DevAvatar() {
   return (
     <div className="flex flex-col items-center gap-[18px]">
-      <div className="dav-frame relative aspect-square w-[min(340px,78vw)] overflow-hidden rounded-[22px]">
+      <div className="dav-frame relative aspect-square w-[min(340px,78vw)] max-xs:w-[min(260px,80vw)] ultra:w-[400px] qhd:w-[480px] overflow-hidden rounded-[22px]">
         {profile.photo ? (
           <img className="h-full w-full object-cover [filter:saturate(0.9)_contrast(1.05)]" src={profile.photo} alt={profile.name} />
         ) : (

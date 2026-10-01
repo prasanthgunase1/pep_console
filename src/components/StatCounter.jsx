@@ -20,13 +20,13 @@ function StatCounter({ value, suffix = '', label }) {
   return (
     <div
       ref={ref}
-      className="flex flex-col gap-1 rounded-(--radius) border border-line bg-[linear-gradient(160deg,var(--panel),transparent)] p-[22px]"
+      className="flex flex-col gap-1 rounded-(--radius) border border-line bg-[linear-gradient(160deg,var(--panel),transparent)] p-[22px] max-phone:p-[18px] max-xs:p-3.5"
     >
-      <span className="font-head text-[clamp(30px,4vw,44px)] font-bold">
+      <span className="font-head text-[clamp(30px,4vw,44px)] font-bold max-xs:text-[24px] ultra:text-[52px] qhd:text-[64px]">
         {display.toLocaleString()}
         <span className="text-green">{suffix}</span>
       </span>
-      <span className="text-[13px] tracking-[0.08em] text-muted uppercase">{label}</span>
+      <span className="text-[13px] tracking-[0.08em] text-muted uppercase max-xs:text-[11px] max-xs:tracking-[0.04em]">{label}</span>
     </div>
   )
 }

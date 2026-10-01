@@ -11,7 +11,7 @@ function GitTimeline({ items }) {
         {items.map((item, i) => (
           <motion.li
             key={item.hash}
-            className="relative pb-9 pl-[14px]"
+            className="relative pb-9 pl-[14px] max-phone:pb-7 max-phone:pl-2.5"
             initial={{ opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.3 }}
@@ -21,9 +21,9 @@ function GitTimeline({ items }) {
             <div className="flex flex-wrap items-center gap-2.5 text-[13px]">
               <span className="text-yellow">{item.hash}</span>
               {i === 0 && <span className="text-cyan">(HEAD -&gt; main)</span>}
-              <span className="ml-auto text-muted">{item.period}</span>
+              <span className="ml-auto text-muted max-xs:ml-0 max-xs:basis-full">{item.period}</span>
             </div>
-            <h3 className="mt-[6px] mb-2.5 text-[20px]">
+            <h3 className="mt-[6px] mb-2.5 text-[20px] max-phone:text-[18px] max-xs:text-[16px]">
               {item.role} <span className="text-cyan">@ {item.company}</span>
             </h3>
             <ul className="git-points m-0 pl-[18px] text-[14px] text-muted">
